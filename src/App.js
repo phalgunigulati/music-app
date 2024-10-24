@@ -7,11 +7,14 @@ function App() {
   const [tracks, setTracks] = useState([]);
 
   const getTracks = async () => {
+    setIsLoading(true);
     try{
-      setIsLoading(true);
+      
     let data = await fetch(`https://v1.nocodeapi.com/phalguni27/spotify/tvgQJesbEgGWvXNx/search?q=${keyword === "" ? "trending" : keyword}&type=track`)
     let response = await data.json();
+    console.log("Response from API:", response);
     console.log(response.tracks.items);
+    setTracks(response.tracks.items);
    
     } catch(error) {
       console.error("Error fetching tracks:", error); // Log any errors
@@ -19,6 +22,9 @@ function App() {
     }
      setIsLoading(false);
   }
+  useEffect(() => {
+    console.log("Updated tracks:", tracks);
+}, [tracks]);
 
   useEffect(() => {
     getTracks();
@@ -88,7 +94,7 @@ function App() {
             return (
               <div key={element.id} className="col-lg-3 col-md-6 py-2">
                 <div className="card">
-                  <img src={element.album.images[0].url} className="card-img-top" alt="..." />
+                  <img src={element.album.images[0].url} className="card-img-top" alt="album cover" />
                   <div className="card-body">
                     <h5 className="card-title">{element.name}</h5>
                     <p className="card-text">
