@@ -10,17 +10,26 @@ function App() {
     setIsLoading(true);
     try{
       
-    let data = await fetch(`https://v1.nocodeapi.com/phalguni27/spotify/tvgQJesbEgGWvXNx/search?q=${keyword === "" ? "trending" : keyword}&type=track`)
-    let response = await data.json();
-    console.log("Response from API:", response);
-    console.log(response.tracks.items);
-    setTracks(response.tracks.items);
+      const data = await fetch(`https://v1.nocodeapi.com/phalguni27/spotify/${process.env.NO_CODE_API_KEY}/search?q=${keyword === "" ? "trending" : keyword}&type=track`);
+      const response = await data.json();
+      if (response.error) {
+        console.error(`API error: ${response.error} - ${response.info}`);
+        throw new Error(response.info);
+      }
+      const tracks = response.tracks?.items;
+      if (!tracks) {
+        console.error("No tracks found in API response");
+        throw new Error("No tracks found");
+      }
+    setTracks(tracks);
    
     } catch(error) {
       console.error("Error fetching tracks:", error); // Log any errors
 
     }
-     setIsLoading(false);
+    finally {
+      setIsLoading(false);
+    }
   }
   useEffect(() => {
     console.log("Updated tracks:", tracks);
