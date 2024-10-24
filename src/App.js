@@ -7,11 +7,17 @@ function App() {
   const [tracks, setTracks] = useState([]);
 
   const getTracks = async () => {
-    setIsLoading(true);
+    try{
+      setIsLoading(true);
     let data = await fetch(`https://v1.nocodeapi.com/phalguni27/spotify/tvgQJesbEgGWvXNx/search?q=${keyword === "" ? "trending" : keyword}&type=track`)
     let response = await data.json();
     console.log(response.tracks.items);
-    setIsLoading(false);
+   
+    } catch(error) {
+      console.error("Error fetching tracks:", error); // Log any errors
+
+    }
+     setIsLoading(false);
   }
 
   useEffect(() => {
