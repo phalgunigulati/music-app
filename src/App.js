@@ -9,7 +9,7 @@ function App() {
   const getTracks = async () => {
     setIsLoading(true);
     try{
-      
+      console.log("API Key:", process.env.NO_CODE_API_KEY);
       const data = await fetch(`https://v1.nocodeapi.com/phalguni27/spotify/${process.env.NO_CODE_API_KEY}/search?q=${keyword === "" ? "trending" : keyword}&type=track`);
       const response = await data.json();
       if (response.error) {
