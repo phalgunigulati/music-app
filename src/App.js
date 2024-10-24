@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 
 function App() {
-
+  const NO_CODE_API_KEY = process.env.REACT_APP_NO_CODE_API_KEY;
   const [keyword, setKeyword] = useState("");
   const [isLoading, setIsLoading] = useState(false); 
   const [tracks, setTracks] = useState([]);
@@ -9,8 +9,8 @@ function App() {
   const getTracks = async () => {
     setIsLoading(true);
     try{
-      console.log("API Key:", process.env.NO_CODE_API_KEY);
-      const data = await fetch(`https://v1.nocodeapi.com/phalguni27/spotify/${process.env.NO_CODE_API_KEY}/search?q=${keyword === "" ? "trending" : keyword}&type=track`);
+      console.log("API Key:", NO_CODE_API_KEY);
+      const data = await fetch(`https://v1.nocodeapi.com/phalguni27/spotify/${NO_CODE_API_KEY}/search?q=${keyword === "" ? "trending" : keyword}&type=track`);
       const response = await data.json();
       if (response.error) {
         console.error(`API error: ${response.error} - ${response.info}`);
